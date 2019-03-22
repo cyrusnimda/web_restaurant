@@ -1,0 +1,24 @@
+{% load time_filters %}
+{% if bookings %}
+    <table class="table table-bordered table-striped">
+        <caption>Booking details</caption>
+        <thead>
+            <td width="10%">ID</td>
+            <td width="20%">Booker</td>
+            <td width="20%">booked at</td>
+            <td width="20%">persons</td>
+            <td width="20%">tables</td>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking.id }}</td>
+                    <td>{{ booking.creator.name }}</td>
+                    <td>{{ booking.booked_at|parse_date|date:"D, d/M, H:i" }}</td>
+                    <td>{{ booking.persons }}</td>
+                    <td>{{ booking.tables|join:', ' }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}

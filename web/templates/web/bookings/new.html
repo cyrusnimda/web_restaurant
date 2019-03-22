@@ -1,0 +1,21 @@
+{% extends "web/base.html" %}
+
+{% block body %}
+    <div class="text-center mb-30">
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+              Error: {{ error }}
+            </div>
+        {% endif %}
+        <h2>Create a new booking</h2>
+    </div>
+    <div class="col-sm-4 offset-sm-4">
+        <form method="post" action="/bookings/new">
+          {% csrf_token %}
+          {{ form }}
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+    </div>
+
+{% endblock %}

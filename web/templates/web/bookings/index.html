@@ -1,0 +1,72 @@
+{% extends "web/base.html" %}
+{% load time_filters %}
+
+{% block body %}
+    <h2>
+        Today bookings.
+    </h2>
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+          Error: {{ error }}
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+
+            {% if tables %}
+
+                <table class="table table-bordered table-striped ">
+                    <caption>Dinner room availability</caption>
+                    <thead>
+                        <tr>
+                            <td width="15%"></td>
+                            {% for hour, data in tables.items %}
+                                {% if forloop.first %}
+                                    {% for table_id, availability in data.items %}
+                                        <td class="text-center" width="7%">
+                                            <div>T-{{ table_id }}</div>
+                                            <div class="small text-muted">{{ availability.seats }}  <i class="fas fa-utensils"></i></div>
+                                        </td>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                            <td width="15%"></td>
+                        </tr>
+                        
+                    </thead>
+                    <tbody>
+                        {% for hour, data in tables.items %}
+                            <tr class="bookingHourRow {% if hour|is_past_time %}pastHour{% endif %}">
+                                <td class="text-center"><i class="fas fa-clock mr-1"> </i>{{ hour }}</td>
+                                {% for table_id, availability in data.items %}
+                                    <td class="{% if availability.available %}available{% else %}ocupied{% endif %}">
+                                        {% if not availability.available %}
+                                            <div class="text-center delete-booking">
+                                                <a class="confirm" href="/bookings/{{ availability.booking_id }}/delete">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
+                                            </div>
+                                        {% endif %}
+                                    </td>
+                                {% endfor %}
+                                <td class="text-center">
+                                    {% if not hour|is_past_time %}
+                                        <a href="bookings/new?date={{ today }} {{ hour }}">
+                                            <button class="btn btn-primary btn-sm">New</button>
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            {% endif %}
+
+            {% include "web/bookings/details.html" %}
+
+        </div>
+    </div>
+
+{% endblock %}

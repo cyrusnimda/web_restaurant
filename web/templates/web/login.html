@@ -1,0 +1,22 @@
+{% extends "web/base.html" %}
+
+{% block body %}
+    <div class="text-center mb-30">
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+              Error: {{ error }}
+            </div>
+        {% endif %}
+        
+        <i class="fas fa-lock fa-7x"></i>
+        <h2>Login required</h2>
+    </div>
+    <div class="col-sm-4 offset-sm-4">
+        <form method="post" action="login">
+          {% csrf_token %}
+          {{ form }}
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+{% endblock %}

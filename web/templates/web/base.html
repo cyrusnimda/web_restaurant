@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/css/main.css" rel="stylesheet">
+
+    <!-- Jquery datetime -->
+    <link href="/static/css/jquery.datetimepicker.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    <title>{% block title %}Restaurant web{% endblock %}</title>
+  </head>
+  <body>
+      <!-- Navigation -->
+      <nav class="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
+        <div class="container">
+          <a class="navbar-brand js-scroll-trigger" href="/">Api Restaurant</a>
+          <button class="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item mx-0 mx-lg-1 text-right">
+                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/bookings"><i class="fas fa-file-alt"></i> Bookings</a>
+              </li>
+              <li class="nav-item mx-0 mx-lg-1 text-right">
+                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/search"><i class="fas fa-search"></i> Search</a>
+              </li>
+              <li class="nav-item mx-0 mx-lg-1 text-right">
+                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/contact"><i class="fas fa-comments"></i> Contact</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Header -->
+      <header class="masthead bg-primary text-white">
+        <div class="container">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" role="alert">
+                      Message: {{ message }}
+                    </div>
+                {% endfor %}
+
+            {% block body %}
+                <div class="text-center">
+                    <h1 class="text-uppercase mb-10">Welcome</h1>
+                    <div class="mb-30">
+                        <i class="fas fa-star fa-2x"></i>
+                        <i class="fas fa-star fa-2x"></i>
+                        <i class="fas fa-star fa-2x"></i>
+                        <i class="fas fa-star fa-2x"></i>
+                        <i class="fas fa-star fa-2x"></i>
+                    </div>
+                    <h2 class="font-weight-light">Enjoy the experience.</h2>
+                </div>
+            {% endblock %}
+        </div>
+      </header>
+
+      <div class="copyright py-4 text-center text-white">
+        <div class="container">
+          <small>Copyright &copy; Josu Ruiz</small>
+        </div>
+      </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- Jquiry datetime picker -->
+    <script src="/static/js/jquery.datetimepicker.full.min.js"></script>
+
+    <script src="/static/js/main.js"></script>
+
+    {% block javascript %} {% endblock %}
+  </body>
+</html>
