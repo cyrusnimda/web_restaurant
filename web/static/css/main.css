@@ -126,6 +126,11 @@ section h2 {
   line-height: 3.1rem;
 }
 
+.main{
+  margin-top: 85px;
+  margin-bottom: 100px;
+}
+
 #mainNav {
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -164,6 +169,7 @@ section h2 {
 }
 
 @media (min-width: 992px) {
+  .main{margin-top: 120px;}
   #mainNav {
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
@@ -228,11 +234,10 @@ header.masthead h2 {
 
 
 
-.footer {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
-  background-color: #2C3E50;
-  color: #fff;
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
 .copyright {
@@ -290,6 +295,7 @@ a:focus, a:hover, a:active {
 img.index{
   border: 5px solid #2C3E50; 
   padding: 1px;
+  width: 90%
 }
 
 TR.bookingHourRow{

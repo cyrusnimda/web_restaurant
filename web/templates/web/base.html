@@ -18,34 +18,32 @@
 
     <title>{% block title %}Restaurant web{% endblock %}</title>
   </head>
-  <body>
-      <!-- Navigation -->
-      <nav class="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
-        <div class="container">
-          <a class="navbar-brand js-scroll-trigger" href="/">Api Restaurant</a>
-          <button class="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            Menu
-            <i class="fa fa-bars"></i>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item mx-0 mx-lg-1 text-right">
-                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/bookings"><i class="fas fa-file-alt"></i> Bookings</a>
-              </li>
-              <li class="nav-item mx-0 mx-lg-1 text-right">
-                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/search"><i class="fas fa-search"></i> Search</a>
-              </li>
-              <li class="nav-item mx-0 mx-lg-1 text-right">
-                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/contact"><i class="fas fa-comments"></i> Contact</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-
-      <!-- Header -->
-      <header class="masthead bg-primary text-white">
-        <div class="container">
+  <body class="bg-primary">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
+            <div class="container">
+              <a class="navbar-brand js-scroll-trigger" href="/">Api Restaurant</a>
+              <button class="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fa fa-bars"></i>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                  <li class="nav-item mx-0 mx-lg-1 text-right">
+                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{% url 'bookings' %}"><i class="fas fa-file-alt"></i> Bookings</a>
+                  </li>
+                  <li class="nav-item mx-0 mx-lg-1 text-right">
+                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{% url 'stats' %}"><i class="fas fa-chart-pie"></i> Stats</a>
+                  </li>
+                  <li class="nav-item mx-0 mx-lg-1 text-right">
+                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{% url 'contact' %}"><i class="fas fa-comments"></i> Contact</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+      
+        <div class="container main">
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }}" role="alert">
                       Message: {{ message }}
@@ -66,13 +64,10 @@
                 </div>
             {% endblock %}
         </div>
-      </header>
 
-      <div class="copyright py-4 text-center text-white">
-        <div class="container">
+      <footer class="copyright py-4 text-center text-white">
           <small>Copyright &copy; Josu Ruiz</small>
-        </div>
-      </div>
+      </footer>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

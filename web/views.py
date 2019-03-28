@@ -22,6 +22,9 @@ def token_required(function):
 def index(request):
     return render(request, 'web/index.html')
 
+def stats(request):
+    return render(request, 'web/stats.html')
+
 def login(request):
     error = None
     if request.method == 'POST':
