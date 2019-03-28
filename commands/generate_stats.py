@@ -67,11 +67,7 @@ names = list(data.keys())
 values = list(data.values())
 
 fig2, ax2 = plt.subplots()
-rects = ax2.bar(names, values)
-for rect in rects:
-    height = rect.get_height()
-    ax2.text(rect.get_x() + rect.get_width()/2., height, '%d' % int(height), ha='center', va='bottom')
-
+rects = ax2.plot(names, values)
 ax2.set_xticklabels(names, rotation=60, fontsize=8)
 
 plt.title('Number of bookings per hours')
