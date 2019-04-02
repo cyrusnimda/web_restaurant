@@ -2,17 +2,38 @@
 {% load time_filters %}
 
 {% block body %}
-    <h2>
-        Today bookings.
-    </h2>
+    
     {% if error %}
         <div class="alert alert-danger" role="alert">
           Error: {{ error }}
         </div>
     {% endif %}
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Bookings for <small>({{date|date:"d/M/Y"}})</small> </h3>
+        </div>
+    
+        <div class="col-md-6 d-flex justify-content-end">
+            <form class="form-inline" method="post" action="">
+                {% csrf_token %}
+              <label class="sr-only" for="txtDate">Date</label>
+              <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                      <i class="far fa-calendar-alt"></i>
+                  </div>
+                </div>
+                <input type="text" class="form-control dateTimePicker" name="date" {% if date != None %}value="{{ date|date:'Y-m-d' }}"{% endif %} >
+              </div>
+        
+              <button type="submit" class="btn btn-primary mb-2">Submit</button>
+            </form>
+        </div>
+    </div>
+  
 
     <div class="row">
-        <div class="col-lg-8 offset-lg-2">
+        <div class="col-lg-10 offset-lg-1">
 
             {% if tables %}
 
@@ -52,7 +73,7 @@
                                 {% endfor %}
                                 <td class="text-center">
                                     {% if not hour|is_past_time %}
-                                        <a href="bookings/new?date={{ today }} {{ hour }}">
+                                        <a href="bookings/new?date={{ date|date:'Y-m-d' }} {{ hour }}">
                                             <button class="btn btn-primary btn-sm">New</button>
                                         </a>
                                     {% endif %}

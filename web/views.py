@@ -51,48 +51,6 @@ def contact(request):
     return render(request, 'web/contact.html')
 
 @token_required
-def search(request):
-    error = None
-    bookings = None
-    date = None
-    tables = None
-    if request.method == 'POST':
-        date = request.POST['date']
-        try:
-            json_response = apiClient.sendRequest(settings.API_ENDPOINT + 'bookings',
-                                                    http_method="get",
-                                                    params={'date':date},
-                                                    headers={'x-access-token': request.session["token"]})
-            bookings = json_response["bookings"]
-        except ApiRestaurantException as e:
-            error = str(e)
-            return render(request, 'web/bookings/search.html', {'error': error, 'bookings': bookings, 'tables':tables, 'date':date})
-        except ApiRestaurantTokenInvalidException as e:
-            request.session.pop('token', None)
-            return redirect('login')
-
-        try:
-            json_response = apiClient.sendRequest(settings.API_ENDPOINT + 'tables',
-                                                    http_method="get",
-                                                    headers={'x-access-token': request.session["token"]})
-        except ApiRestaurantException as e:
-            error = str(e)
-            return render(request, 'web/bookings/search.html', {'error': error, 'bookings': bookings, 'tables':tables, 'date':date})
-        except ApiRestaurantTokenInvalidException as e:
-            request.session.pop('token', None)
-            return redirect('login')
-
-        tables = {}
-        for table in json_response:
-            tables[table['id']] = {"available": True, "seats": table['seats'] }
-        for booking in bookings:
-            for table_id in booking["tables"]:
-                tables[table_id]["available"] = False
-                tables[table_id]["booking_id"] = booking["id"]
-
-    return render(request, 'web/bookings/search.html', {'error': error, 'bookings': bookings, 'tables':tables, 'date':date})
-
-@token_required
 def new(request):
     date = request.GET.get('date', '')
     error = None
@@ -102,10 +60,12 @@ def new(request):
         if form.is_valid():
             date = form.cleaned_data['date']
             persons = form.cleaned_data['persons']
+            name = form.cleaned_data['name']
+
             try:
                 apiClient.sendRequest(settings.API_ENDPOINT + 'bookings',
                                                         http_method="post",
-                                                        json={'date': date, 'persons': persons},
+                                                        json={'date': date, 'persons': persons, 'name' : name},
                                                         headers={'x-access-token': request.session["token"]})
                 messages.success(request, 'New booking successfully added.')
                 return redirect('index')
@@ -126,21 +86,29 @@ def bookings(request):
     error = None
     bookings = None
     tables = None
-    today = datetime.now().strftime("%Y-%m-%d")
     
-    # Get today's bookings
+    if request.method == 'POST':
+        # Get bookings for specific day
+        dateString = request.POST['date']
+        date = datetime.strptime(dateString, "%Y-%m-%d %H:%M")
+    else:
+        # Get today's bookings
+        date = datetime.now()
+        dateString = date.strftime("%Y-%m-%d")
+    
     try:
-        json_response = apiClient.sendRequest(settings.API_ENDPOINT + 'bookings/today',
+        json_response = apiClient.sendRequest(settings.API_ENDPOINT + 'bookings',
                                                 http_method="get",
+                                                params={'date':dateString},
                                                 headers={'x-access-token': request.session["token"]})
         bookings = json_response["bookings"]
     except ApiRestaurantException as e:
         error = str(e)
-        return render(request, 'web/bookings/index.html', {"bookings": bookings})
+        return render(request, 'web/bookings/index.html', {'error': error, 'bookings': bookings, 'tables':tables, 'date':date})
     except ApiRestaurantTokenInvalidException as e:
         request.session.pop('token', None)
         return redirect('login')
-    
+
     # Get all tables
     try:
         all_tables = apiClient.sendRequest(settings.API_ENDPOINT + 'tables',
@@ -148,7 +116,7 @@ def bookings(request):
                                                 headers={'x-access-token': request.session["token"]})
     except ApiRestaurantException as e:
         error = str(e)
-        return render(request, 'web/bookings/index.html', {'error': error, 'bookings': bookings, 'tables':tables, 'today':today})
+        return render(request, 'web/bookings/index.html', {'error': error, 'bookings': bookings, 'tables':tables, 'date':date})
     except ApiRestaurantTokenInvalidException as e:
         request.session.pop('token', None)
         return redirect('login')
@@ -173,7 +141,7 @@ def bookings(request):
                 tables[bookingTimeEnd][table_id]["available"] = False
                 tables[bookingTimeEnd][table_id]["booking_id"] = booking["id"]
 
-    return render(request, 'web/bookings/index.html', {'error': error, 'bookings': bookings, 'tables':tables, 'today':today})
+    return render(request, 'web/bookings/index.html', {'error': error, 'bookings': bookings, 'tables':tables, 'date':date})
     
 @token_required
 def remove_booking(request, booking_id):

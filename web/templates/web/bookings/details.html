@@ -13,7 +13,7 @@
             {% for booking in bookings %}
                 <tr>
                     <td>{{ booking.id }}</td>
-                    <td>{{ booking.creator.name }}</td>
+                    <td>{{ booking.name }}</td>
                     <td>{{ booking.booked_at|parse_date|date:"D, d/M, H:i" }}</td>
                     <td>{{ booking.persons }}</td>
                     <td>{{ booking.tables|join:', ' }}</td>

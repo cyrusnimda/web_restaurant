@@ -37,3 +37,10 @@ class NewBookingForm(forms.Form):
             attrs={'class': 'form-control mb-4'}
         )
     )
+    name = forms.CharField(
+        label='Name', 
+        max_length=20, 
+        widget=forms.TextInput(
+            attrs={'class': 'form-control mb-4'}
+        )
+    )
