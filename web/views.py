@@ -25,6 +25,11 @@ def index(request):
 def stats(request):
     return render(request, 'web/stats.html')
 
+def logout(request):
+    request.session.pop('user', None)
+    request.session.pop('token', None)
+    return redirect('login')
+
 def login(request):
     error = None
     if request.method == 'POST':
@@ -33,17 +38,20 @@ def login(request):
         if form.is_valid():
             # login in api_restaurant
             try:
+                username = form.cleaned_data['username']
                 json_response = apiClient.sendRequest(settings.API_ENDPOINT + 'login',
                                                     http_method="post",
-                                                    json={'username': form.cleaned_data['username'], 'password': form.cleaned_data['password']})
+                                                    json={'username': username, 'password': form.cleaned_data['password']})
                 token = json_response["token"]
                 request.session["token"] = token
+                request.session["user"] = username
                 return redirect('index')
             except ApiRestaurantException as e:
                 error = str(e)
     # if a GET (or any other method) we'll create a blank form
     else:
         form = LoginForm()
+        request.session.pop('user', None)
     return render(request, 'web/login.html', {'form': form, 'error': error})
 
 @token_required

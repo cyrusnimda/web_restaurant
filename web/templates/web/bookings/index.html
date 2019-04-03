@@ -36,56 +36,76 @@
         <div class="col-lg-10 offset-lg-1">
 
             {% if tables %}
-
-                <table class="table table-bordered table-striped ">
-                    <caption>Dinner room availability</caption>
-                    <thead>
-                        <tr>
-                            <td width="15%"></td>
-                            {% for hour, data in tables.items %}
-                                {% if forloop.first %}
-                                    {% for table_id, availability in data.items %}
-                                        <td class="text-center" width="7%">
-                                            <div>T-{{ table_id }}</div>
-                                            <div class="small text-muted">{{ availability.seats }}  <i class="fas fa-utensils"></i></div>
-                                        </td>
-                                    {% endfor %}
-                                {% endif %}
-                            {% endfor %}
-                            <td width="15%"></td>
-                        </tr>
-                        
-                    </thead>
-                    <tbody>
-                        {% for hour, data in tables.items %}
-                            <tr class="bookingHourRow {% if hour|is_past_time %}pastHour{% endif %}">
-                                <td class="text-center"><i class="fas fa-clock mr-1"> </i>{{ hour }}</td>
-                                {% for table_id, availability in data.items %}
-                                    <td class="{% if availability.available %}available{% else %}ocupied{% endif %}">
-                                        {% if not availability.available %}
-                                            <div class="text-center delete-booking">
-                                                <a class="confirm" href="/bookings/{{ availability.booking_id }}/delete">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </a>
-                                            </div>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs mb-4">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#home">Dinner room availability</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#menu1">Booking details</a>
+                    </li>
+                </ul>
+                
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane container active" id="home">
+                        <table class="table table-bordered table-striped ">
+                            <thead>
+                                <tr>
+                                    <td width="15%"></td>
+                                    {% for hour, data in tables.items %}
+                                        {% if forloop.first %}
+                                            {% for table_id, availability in data.items %}
+                                                <td class="text-center" width="7%">
+                                                    <div>T-{{ table_id }}</div>
+                                                    <div class="small text-muted">{{ availability.seats }}  <i class="fas fa-utensils"></i></div>
+                                                </td>
+                                            {% endfor %}
                                         {% endif %}
-                                    </td>
+                                    {% endfor %}
+                                    <td width="15%"></td>
+                                </tr>
+                                
+                            </thead>
+                            <tbody>
+                                {% for hour, data in tables.items %}
+                                    <tr class="bookingHourRow {% if hour|is_past_time %}pastHour{% endif %}">
+                                        <td class="text-center"><i class="fas fa-clock mr-1"> </i>{{ hour }}</td>
+                                        {% for table_id, availability in data.items %}
+                                            <td class="{% if availability.available %}available{% else %}ocupied{% endif %}">
+                                                {% if not availability.available %}
+                                                    <div class="text-center delete-booking">
+                                                        <a class="confirm" href="/bookings/{{ availability.booking_id }}/delete">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </a>
+                                                    </div>
+                                                {% endif %}
+                                            </td>
+                                        {% endfor %}
+                                        <td class="text-center">
+                                            {% if not hour|is_past_time %}
+                                                <a href="bookings/new?date={{ date|date:'Y-m-d' }} {{ hour }}">
+                                                    <button class="btn btn-primary btn-sm">New</button>
+                                                </a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
                                 {% endfor %}
-                                <td class="text-center">
-                                    {% if not hour|is_past_time %}
-                                        <a href="bookings/new?date={{ date|date:'Y-m-d' }} {{ hour }}">
-                                            <button class="btn btn-primary btn-sm">New</button>
-                                        </a>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-
-                    </tbody>
-                </table>
+        
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane container " id="menu1">
+                            {% include "web/bookings/details.html" %}
+                    </div>
+                    <div class="tab-pane container " id="menu2">
+                        
+                    </div>
+                </div>
+                
             {% endif %}
 
-            {% include "web/bookings/details.html" %}
+            
 
         </div>
     </div>

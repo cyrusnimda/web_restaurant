@@ -136,6 +136,7 @@ section h2 {
   padding-bottom: 1rem;
   font-weight: 700;
   font-family: 'Montserrat';
+  max-height: 6em;
 }
 
 #mainNav .navbar-brand {
@@ -250,6 +251,12 @@ a {
 
 a:focus, a:hover, a:active {
   color: #128f76;
+}
+
+.nav-item a{
+  color: rgb(21, 53, 46);
+  border-color: #e9ecef #e9ecef #dee2e6 !important;
+  margin-left: 5px;
 }
 
 .btn {
